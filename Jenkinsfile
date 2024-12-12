@@ -17,19 +17,23 @@ pipeline {
     stage('Plan') {
       when { not { branch 'main' } }
       steps {
-        sh '''
-            terraform init
-            terraform plan
-        '''
+        dir('terraform') {
+          sh '''
+              terraform init
+              terraform plan
+          '''
+        }
       }
     }
     stage('Apply') {
       when { branch 'main' }
       steps {
-        sh '''
-            terraform init
-            terraform apply --auto-approve
-        '''
+        dir('terraform') {
+          sh '''
+              terraform init
+              terraform apply --auto-approve
+          '''
+        }
       }
     }
   }
